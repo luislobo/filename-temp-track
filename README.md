@@ -17,15 +17,14 @@ yarn filename-temp-track
 
 ## Use
 
-The library exposes the following functions:
- track, cleanupFile, cleanupFileSync, cleanupAll, cleanupAllSync and getBaseDirectory:
 
-
-### track(filename|opts)
+### track(filename, cleanupTimeout, inDirectory)
 Tracks a filename, under a temporary folder, and deletes it after an hour, by default.
-- `filename|opts`: It accepts a filename or an object with options. Options could be `filename` with the filename, and `cleanupTimeout`
-with a cleanup timeout in milliseconds.
+- `filename`: string with the file name. If inDirectory is false, this is the full path of the file to track
+- `cleanuptimeout`: number in ms after which to delete the file
+- `filename`: boolean (default true)
 - Returns a Promise with the full path name, including the base temporary directory.
+- filename can be an object with all the same properties as the method signature. 
 
 Example: 
 ```javascript
@@ -57,13 +56,12 @@ Cleans up all the files being controlled by this module
 ### cleanupAllSync()
 Cleans up all the files being controlled by this module (sync version)
 
-### getBaseDirectory()
-Returns the temporary base directory
-
 ### getFilesBeingTracked()
 Returns the array of files being tracked
 
 ## History
+
+v 2.0.0 - Refactor into Class
 
 v 1.0.0 - Initial version
 

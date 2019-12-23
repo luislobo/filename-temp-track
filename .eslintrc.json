@@ -633,6 +633,7 @@
     ],
     "no-restricted-modules": [
       "error"
-    ]
+    ],
+    "no-sync": [0]
   }
 }
