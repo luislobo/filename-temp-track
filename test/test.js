@@ -8,6 +8,9 @@ const Promise = require('bluebird');
 
 const ft = require('../lib/index');
 
+const touch = filename => fs.closeSync(fs.openSync(filename, 'w'));
+
+
 // according to your preference of assertion style
 
 describe('Track a file', () => {
@@ -30,15 +33,20 @@ describe('Track a file', () => {
   });
 
   it('should be able to track several files and clear them all', async () => {
-    const result = await Promise.all([
-      ft.track('1.txt'),
-      ft.track('2.txt'),
-      ft.track('3.txt')
-    ]);
+    const files = [
+      '1.txt',
+      '2.txt',
+      '3.txt'
+    ];
+    const result = await Promise.map(files, file => ft.track(file));
+    result.map(touch);
+
 
     result.should.be.an('array').and.have.lengthOf(3);
     await ft.cleanupAll();
     ft.getFilesBeingTracked().should.be.an('array').and.be.empty;
+
+    await Promise.map(result, async file => fs.existsSync(file).should.equal(false));
   });
 
   it('should track a file, wait for it\'s timeout, and the file should be gone', async () => {
@@ -46,7 +54,7 @@ describe('Track a file', () => {
       filename: '3.txt',
       cleanupTimeout: 100
     });
-    fs.closeSync(fs.openSync(pathname, 'w'));
+    touch(pathname);
     fs.existsSync(pathname).should.be.true;
 
     await Promise.delay(150);
