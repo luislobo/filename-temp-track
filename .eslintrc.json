@@ -1,6 +1,10 @@
 // Refer to http://eslint.org/docs/rules/ for details on each rule and how to configure them
 {
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   "env": {
+    "es6": true,
     "node": true
   },
   "rules": {
@@ -634,6 +638,8 @@
     "no-restricted-modules": [
       "error"
     ],
-    "no-sync": [0]
+    "no-sync": [
+      0
+    ]
   }
 }
