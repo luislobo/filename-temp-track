@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "eslint test/test.js lib/index.js && mocha"
+    "test": "eslint test/test.js lib/index.js && mocha --exit"
   },
   "repository": {
     "type": "git",
@@ -33,10 +33,10 @@
     "lodash": "4.17.13"
   },
   "devDependencies": {
-    "chai": "~4.1.1",
-    "chai-as-promised": "~7.1.1",
+    "chai": "4.1.1",
+    "chai-as-promised": "7.1.1",
     "eslint": "4.18.2",
     "eslint-plugin-chai-friendly": "0.4.0",
-    "mocha": "~3.5.0"
+    "mocha": "6.2.2"
   }
 }
