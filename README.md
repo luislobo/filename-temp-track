@@ -20,20 +20,20 @@ yarn filename-temp-track
 
 ### track(filename, cleanupTimeout, inDirectory)
 Tracks a filename, under a temporary folder, and deletes it after an hour, by default.
-- `filename`: string with the file name. If inDirectory is false, this is the full path of the file to track
+- `filename`: string with the file name. If inDirectory is false, this is the full path of the file to track.
+  It can also be an object with all the same properties as the method signature (see second example below)
 - `cleanuptimeout`: number in ms after which to delete the file
-- `filename`: boolean (default true)
+- `inDirectory`: boolean (default true)
 - Returns a Promise with the full path name, including the base temporary directory.
-- filename can be an object with all the same properties as the method signature. 
 
-Example: 
+Example 1: 
 ```javascript
 // Tracks for a filename, using the default timeout of an hour
 ft.track('filename.xls')
   .then(function(pathName){ // pathName should be /tmp/sometemp/filename.xls});
 ```
 
-Example: 
+Example 2: 
 ```javascript
 // Tracks for a filename, using a custom timeout of a minute
 ft.track({filename: 'filename.xls', cleanupTimeout: 1000 * 60})
@@ -61,9 +61,15 @@ Returns the array of files being tracked
 
 ## History
 
-v 2.0.0 - Refactor into Class
+### 2.0.0
+- Refactor into Class
+- Adds `inDirectory` optional parameter
 
-v 1.0.0 - Initial version
+### 1.0.0
+- Initial version
+
+## Contributors
+- [Mudrekh Godeyra](https://github.com/Mudrekh)
 
 ## License
-MIT - Copyright (c) 2017 - Luis Lobo Borobia
+MIT - Copyright (c) 2017, 2019 - Luis Lobo Borobia <luislobo@gmail.com>
