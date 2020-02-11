@@ -1,6 +1,6 @@
 {
   "name": "filename-temp-track",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "File name tracking in temporary directory and auto clean up",
   "main": "lib/index.js",
   "directories": {
@@ -42,5 +42,7 @@
     "eslint-plugin-chai-friendly": "0.4.0",
     "mocha": "6.2.2"
   },
-  "engines" : { "node" : ">=10.12.0" } 
+  "engines": {
+    "node": ">=10.12.0"
+  }
 }
