@@ -1,0 +1,58 @@
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI
+env:
+  NODE_ENV: test-ci
+
+on:
+  push:
+    branches: [ master, development ]
+  pull_request:
+    branches: [ master, development ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+
+    - name: Make sure git has permissions
+      run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+
+    - name: Checkout repository ✨
+      uses: actions/checkout@v3
+
+    - name: Set up node env (1/2) 📦
+      uses: actions/setup-node@v3
+      with:
+        check-latest: true
+        node-version: ${{ matrix.node-version }}
+        registry-url: https://registry.npmjs.org
+
+    - name: Set up node env (2/2) 📦
+      id: node
+      run: echo "::set-output name=VERSION::$(node -p process.versions.modules)"
+
+    - name: Cache dependencies 💾
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: modules-${{ steps.node.outputs.VERSION }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Dependencies 🚀
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        npm ci
+
+    - name: Linting 👀
+      run: npm run lint
+
+    - name: Tests 🏃‍♀️
+      run: |
+        npm test

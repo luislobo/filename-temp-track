@@ -1,11 +1,14 @@
 require('./frameworks.js');
+require('../Promise.map');
 
 const fs = require('fs');
+const fsAsync = fs.promises;
 
-const Promise = require('bluebird');
 const _ = require('lodash');
 
 const ft = require('../lib/index');
+const {setTimeout} = require('timers/promises');
+
 
 const touch = filename => fs.closeSync(fs.openSync(filename, 'w'));
 
@@ -91,7 +94,7 @@ describe('The Default Tracker', () => {
         await ft.track('./specialfile.txt', 100, false);
         touch('./specialfile.txt');
         fs.existsSync('./specialfile.txt').should.be.true;
-        await Promise.delay(150);
+        await setTimeout(150);
         fs.existsSync('./specialfile.txt').should.be.false;
       });
     });
@@ -111,7 +114,7 @@ describe('The Default Tracker', () => {
         touch(pathname);
         fs.existsSync(pathname).should.be.true;
 
-        await Promise.delay(150);
+        await setTimeout(150);
         fs.existsSync(pathname).should.be.false;
       });
       it('place a file in the tracked directory by default', async () => {
@@ -170,7 +173,7 @@ describe('The Default Tracker', () => {
         await Promise.map(result, async file => fs.existsSync(file).should.equal(false));
       });
       it('should handle errors', async () => {
-        await Promise.map(result, file => fs.unlinkAsync(file));
+        await Promise.map(result, file => fsAsync.unlink(file));
         ft.cleanupAllSync();
       });
     });
@@ -192,7 +195,7 @@ describe('The Default Tracker', () => {
         await Promise.map(result, async file => fs.existsSync(file).should.equal(false));
       });
       it('should handle errors', async () => {
-        await Promise.map(result, file => fs.unlinkAsync(file));
+        await Promise.map(result, file => fsAsync.unlink(file));
         await ft.cleanupAll();
       });
     });

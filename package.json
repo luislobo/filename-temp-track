@@ -1,6 +1,6 @@
 {
   "name": "filename-temp-track",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "File name tracking in temporary directory and auto clean up",
   "main": "lib/index.js",
   "directories": {
@@ -30,19 +30,18 @@
   },
   "homepage": "https://github.com/luislobo/filename-temp-track#readme",
   "dependencies": {
-    "bluebird": "3.7.2",
-    "debug": "4.1.1",
-    "lodash": "4.17.13"
+    "debug": "4.3.4",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
-    "chai": "4.1.1",
+    "chai": "4.3.6",
     "chai-as-promised": "7.1.1",
-    "eslint": "4.18.2",
-    "eslint-plugin-chai-friendly": "0.4.0",
-    "mocha": "6.2.2",
-    "nyc": "15.0.0"
+    "eslint": "8.23.0",
+    "eslint-plugin-chai-friendly": "0.7.2",
+    "mocha": "10.0.0",
+    "nyc": "15.1.0"
   },
   "engines": {
-    "node": ">=10.12.0"
+    "node": ">=16"
   }
 }
