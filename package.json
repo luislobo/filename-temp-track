@@ -1,6 +1,6 @@
 {
   "name": "filename-temp-track",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "File name tracking in temporary directory and auto clean up",
   "main": "lib/index.js",
   "directories": {
