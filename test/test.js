@@ -1,6 +1,5 @@
 require('./frameworks.js');
-require('../Promise.map');
-
+const {promiseMap} = require('../utils');
 const fs = require('fs');
 const fsAsync = fs.promises;
 
@@ -73,7 +72,7 @@ describe('The Default Tracker', () => {
       '2.txt',
       '3.txt'
     ];
-    const result = await Promise.map(files, file => ft.track(file));
+    const result = await promiseMap(files, file => ft.track(file));
     result.map(touch);
     result.should.be.an('array').and.have.lengthOf(3);
     return result;
@@ -81,12 +80,14 @@ describe('The Default Tracker', () => {
 
   describe('track', () => {
     describe('with a filename', () => {
-      it('should return a full path name', () => ft.track('myfile.txt')
-        .should.eventually.contain('myfile.txt'));
+      it('should return a full path name', async () => {
+        (await ft.track('myfile.txt')).should.contain('myfile.txt');
+      });
 
-      it('should be able to track the same file more than one time', () => ft.track('myfile.txt')
-        .then(() => ft.track('myfile.txt'))
-        .should.eventually.contain('myfile.txt'));
+      it('should be able to track the same file more than one time', async () => {
+        await ft.track('myfile.txt');
+        (await ft.track('myfile.txt')).should.contain('myfile.txt');
+      });
 
       it('should be able to track several files and clear them all', async () => trackList());
 
@@ -170,10 +171,10 @@ describe('The Default Tracker', () => {
       it('should clean up a list of files', async () => {
         ft.cleanupAllSync();
         ft.getFilesBeingTracked().should.be.an('array').and.be.empty;
-        await Promise.map(result, async file => fs.existsSync(file).should.equal(false));
+        await promiseMap(result, async file => fs.existsSync(file).should.equal(false));
       });
       it('should handle errors', async () => {
-        await Promise.map(result, file => fsAsync.unlink(file));
+        await promiseMap(result, file => fsAsync.unlink(file));
         ft.cleanupAllSync();
       });
     });
@@ -192,10 +193,10 @@ describe('The Default Tracker', () => {
       it('should clean up a list of files', async () => {
         await ft.cleanupAll();
         ft.getFilesBeingTracked().should.be.an('array').and.be.empty;
-        await Promise.map(result, async file => fs.existsSync(file).should.equal(false));
+        await promiseMap(result, async file => fs.existsSync(file).should.equal(false));
       });
       it('should handle errors', async () => {
-        await Promise.map(result, file => fsAsync.unlink(file));
+        await promiseMap(result, file => fsAsync.unlink(file));
         await ft.cleanupAll();
       });
     });
